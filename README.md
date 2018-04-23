@@ -25,3 +25,4 @@ Upon opening the webservice for the first time, you will need to login with the 
 * PHP permissions must be set as such, that you're able to create local files.
 * Currently only works under linux. (*Now that python requirements have been removed, this may no longer be the case*)
 * This interface only works with neato-bot ESP8266 image >= 2.0
+* The api folder needs to be accessable via http and not https. This is because the 8266 has no ability to use https for accessing the api. I've included an .htaccess that prevents that redirection.
