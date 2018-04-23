@@ -5,6 +5,7 @@ NeatoScheduler is a php framework, wrapped with a bootstrap interface. The frame
 * [Setup](#setup)
   * [Software](#software)
   * [Configuration](#configuration)
+  * [Cron](#cron)
 * [Usage](#usage)
   * [HTML Interface](#html-interface)
 * [Known Issues and Limitations](#known-issues-and-limitations)
@@ -18,6 +19,8 @@ Required:
 To install, simply clone this repository into the folder of your choice, and run install.sh with bash. This should create the credentials (admin/password) and systems folders for you, and set the appropriate permissions. For simplicity sake, the web application creates files on disk rather than in a database. 
 ### Configuration
 To make the deployment of neatoscheduler simple and site configurable, we've included a config.php file that allows you to set default values for fields, as well as define additional facts that you want to add to your site. This file also includes folder paths that you can change based on your requirements. Detailed discussion of this file won't be done here, as the configuration file is marked up for ease of use. The only important field to change initially, is your current timezone as this will be used for scheduling. A list of accepted PHP timezones can be found here: http://php.net/manual/en/timezones.php 
+### Cron
+To ensure scheduled actions run when they should, you need to add a cronjob that points to the neatoCronActions.php file, that runs every minute. You can place this file anywhere on your filesystem, but be sure to update the file to point to the correct location of your webservice install path. In our example, we're using /var/www/neato/neato/. 
 ## Usage
 ### HTML Interface
 Upon opening the webservice for the first time, you will need to login with the username "admin" and password "password". Please be sure to change this password!
