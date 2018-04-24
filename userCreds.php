@@ -81,7 +81,7 @@ if (isset($_GET['username'])){
 $allCreds = glob($usersDir.'*.{json}', GLOB_BRACE);
 ?>
 <?php 
-if ($_SESSION['msgBox'] != "") {
+if (isset($_SESSION['msgBox']) && $_SESSION['msgBox'] != "") {
   echo '<div class="red-text container">';
   echo $_SESSION['msgBox'];
   echo '</div>';
@@ -123,7 +123,7 @@ if ($_SESSION['msgBox'] != "") {
       <div class="form-check col-md-12">
         <input aria-describedby="adminHelp" class="form-check-input" type="checkbox" id="admin" name="admin" value="1" <?php echo $checked;?>>
         <label class="form-label" id="adminHelp">Site Administrator</label>
-        <small id="adminHelp" class="form-text text-muted">Select this if you want to make this user an administrator in puppet facts.</small>
+        <small id="adminHelp" class="form-text text-muted">Select this if you want to make this user an administrator.</small>
       </div>
     <?php }?>
     </div>

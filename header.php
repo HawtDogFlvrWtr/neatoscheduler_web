@@ -73,9 +73,9 @@ $currentPage = basename($_SERVER['PHP_SELF'],'.php');
 </div>-->
 
 <?php
-if ($msgBox != "") {
+if (isset($_SESSION['msgBox'])) {
   echo '<div class="container">';
-  echo $msgBox;
+  echo $_SESSION['msgBox'];
   echo '</div>';
 }
 ?>

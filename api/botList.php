@@ -24,8 +24,12 @@ $files = glob('../'.$botsDir.'*.{json}', GLOB_BRACE);
      }
      if ($jsonDecode['ping'] <= time() - 60) {
        $batteryIcon = "disabled progress-bar bg-secondary";
+       $jsonDecode['battery'] = 0;
      } else {
        # Draw bettery Icon
+       if (! isset($jsonDecode['battery'])) {
+	 $jsonDecode['battery'] = 0;
+       } 
        $battery = $jsonDecode['battery'];
        # Use charge icon if we're charging. Otherwise show battery.
        if ($jsonDecode['chargeActive'] == 1) {

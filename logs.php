@@ -5,12 +5,13 @@ $row = 1;
 
 # Get list of users, This after the delete statement above, so it updates the page on post.
 $files = glob($actionsDir.'*.{json}', GLOB_BRACE);
-if ($_SESSION['msgBox'] != "") {
+if (isset($_SESSION['msgBox']) && $_SESSION['msgBox'] != "") {
   echo '<div class="red-text container">';
   echo $_SESSION['msgBox'];
   echo '</div>';
   $_SESSION['msgBox'] = "";
 }
+
 ?>
 <div class="container-margin container border rounded bg-light">
 <h1>Action Logs</h1>
@@ -32,7 +33,6 @@ if (count($files) > 0) {
    foreach(array_reverse($files) as $file) {
      $jsonDecode = json_decode(file_get_contents($file), true);
      $id = end(explode("/", explode(".", $file)[0]));
-     $jsonDecode['date'] = convertDates($jsonDecode['date']);
      $botInfo = json_decode(file_get_contents($botsDir.$jsonDecode['serial'].".json"),true);
      $time = $jsonDecode['time'];
      $realDate = date("Y-m-d H:i:s", $time);

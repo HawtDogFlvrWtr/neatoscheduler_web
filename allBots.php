@@ -57,7 +57,7 @@ if (isset($_GET['serial'])){
 # Get list of systems, This after the delete statement above, so it updates the page on post.
 $lidarList = glob($lidarDir.'*.{json}', GLOB_BRACE);
 $files = glob($botsDir.'*.{json}', GLOB_BRACE);
-if ($_SESSION['msgBox'] != "") {
+if (isset($_SESSION['msgBox']) && $_SESSION['msgBox'] != "") {
   echo '<div class="red-text container">';
   echo $_SESSION['msgBox'];
   echo '</div>';
@@ -136,7 +136,7 @@ if (count($files) > 0) {
 					      });
                                        </script>
 	                               <div>
-        	                               <a href="largeMap.php?serial=<?php echo $queryArray['serial']?>" onclick="window.open(this.href, 'mywin','left=20,top=20,width=700,height=700,toolbar=1,resizable=0'); return false;" ><img class="img-fluid" id="map<?php echo $queryArray['serial']?>" width=200 height=200 src="api/drawMap.php?serial=<?php echo $queryArray['serial']?>"/></a>
+        	                               <a href="largeMap.php?serial=<?php echo $queryArray['serial']?>" onclick="window.open(this.href, 'mywin','left=20,top=20,width=700,height=700,toolbar=1,resizable=0'); return false;" ><img class="border rounded img-fluid" id="map<?php echo $queryArray['serial']?>" width=202 height=202 src="api/drawMap.php?serial=<?php echo $queryArray['serial']?>"/></a>
                                        </div>
 		</div>
 	</div>
