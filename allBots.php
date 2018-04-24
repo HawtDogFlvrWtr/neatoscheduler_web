@@ -57,12 +57,6 @@ if (isset($_GET['serial'])){
 # Get list of systems, This after the delete statement above, so it updates the page on post.
 $lidarList = glob($lidarDir.'*.{json}', GLOB_BRACE);
 $files = glob($botsDir.'*.{json}', GLOB_BRACE);
-if (isset($_SESSION['msgBox']) && $_SESSION['msgBox'] != "") {
-  echo '<div class="red-text container">';
-  echo $_SESSION['msgBox'];
-  echo '</div>';
-  $_SESSION['msgBox'] = "";
-}
 ?>
 <div class="container-margin container border rounded bg-light">
 <div class="row">

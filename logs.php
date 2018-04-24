@@ -5,13 +5,6 @@ $row = 1;
 
 # Get list of users, This after the delete statement above, so it updates the page on post.
 $files = glob($actionsDir.'*.{json}', GLOB_BRACE);
-if (isset($_SESSION['msgBox']) && $_SESSION['msgBox'] != "") {
-  echo '<div class="red-text container">';
-  echo $_SESSION['msgBox'];
-  echo '</div>';
-  $_SESSION['msgBox'] = "";
-}
-
 ?>
 <div class="container-margin container border rounded bg-light">
 <h1>Action Logs</h1>

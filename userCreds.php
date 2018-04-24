@@ -80,15 +80,6 @@ if (isset($_GET['username'])){
 # Get all Credentials after they've been placed in the file. This is the for sidebar list
 $allCreds = glob($usersDir.'*.{json}', GLOB_BRACE);
 ?>
-<?php 
-if (isset($_SESSION['msgBox']) && $_SESSION['msgBox'] != "") {
-  echo '<div class="red-text container">';
-  echo $_SESSION['msgBox'];
-  echo '</div>';
-  $_SESSION['msgBox'] = "";
-}
-
-?>
 <div class="container">
   <div class="row">
   <?php if ($_SESSION['admin'] == 1) { ?>
