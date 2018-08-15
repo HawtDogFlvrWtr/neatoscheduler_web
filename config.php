@@ -17,4 +17,7 @@ $callbackDir = 'db/callback/';
 $usersDir = 'db/usercreds/';
 $actionsDir = 'db/actions/';
 $schedulesDir = 'db/schedules/';
+
+# CHANGE THIS TO ENSURE SESSION DATA IS DIFFERENT THAN ALL OTHER NEATO SITES
+$sessionID = 'CHANGEME';
 ?>

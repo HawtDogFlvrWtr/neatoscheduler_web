@@ -5,8 +5,9 @@ include 'functions.php';
 # Start session across pages
 session_start();
 # redirect if not logged in, or if logging out.
-if (!isset($_SESSION['login_user']) OR isset($_GET['logout'])) {
-  unset($_SESSION['login_user']);
+if (!isset($_SESSION['login_user_'.$sessionID]) OR isset($_GET['logout'])) {
+ # session_destroy();
+  unset($_SESSION['login_user_'.$sessionID]);
   header("Location: login.php");
   die();
 }
@@ -63,7 +64,7 @@ $currentPage = basename($_SERVER['PHP_SELF'],'.php');
     </ul>
     <ul class="navbar-nav">
       <li class="nav-item active" >
-        <a class="nav-margin btn btn-danger  btn-sm" href="index.php?logout"><i class="fa fa-sign-out-alt"></i> <?php echo strtoupper($_SESSION['login_user']);?>, Log Out</a>
+        <a class="nav-margin btn btn-danger  btn-sm" href="index.php?logout"><i class="fa fa-sign-out-alt"></i> <?php echo strtoupper($_SESSION['login_user_'.$sessionID]);?>, Log Out</a>
       </li>
     </ul>
   </div>

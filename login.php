@@ -2,7 +2,7 @@
 include 'config.php';
 include 'functions.php';
 #var_dump($_POST);
-if (isset($_SESSION['login_user'])) {
+if (isset($_SESSION['login_user_'.$sessionID])) {
   header("Location: index.php");
   die();
 }
@@ -12,16 +12,16 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
   $checkUser = checkUser($password, $username, $usersDir);
   if ($checkUser == 0) {
     session_start();
-    $_SESSION['login_user'] = $username;
-    $_SESSION['app'] = 'puppetfacts';
+    $_SESSION['login_user_'.$sessionID] = $username;
+    $_SESSION['sessionID'] = $sessionID;
     $_SESSION['time'] = time();
     $_SESSION['admin'] = 0;
     header("Location: index.php");
     die();
   } else if ($checkUser == 3) {
     session_start();
-    $_SESSION['login_user'] = $username;
-    $_SESSION['app'] = 'puppetfacts';
+    $_SESSION['login_user_'.$sessionID] = $username;
+    $_SESSION['sessionID'] = $sessionID;
     $_SESSION['time'] = time();
     $_SESSION['admin'] = 1;
     header("Location: index.php");

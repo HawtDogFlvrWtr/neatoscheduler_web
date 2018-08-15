@@ -5,27 +5,6 @@ include('../functions.php');
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 
-function gradientColor($start,$end) {
- $s = array(
-   hexdec(substr($start,0,2)),
-   hexdec(substr($start,2,2)),
-   hexdec(substr($start,4,2))
- );
- $e = array(
-   hexdec(substr($end,0,2)),
-   hexdec(substr($end,2,2)),
-   hexdec(substr($end,4,2))
- );
- $steps = 200 - 0;
- for($i = 0; $i < $steps; $i++) {
-   $r = $s[0] - ((($s[0]-$e[0])/$steps)*$i);
-   $g = $s[1] - ((($s[1]-$e[1])/$steps)*$i);
-   $b = $s[2] - ((($s[2]-$e[2])/$steps)*$i);
-   $color = "$r,$g,$b";
- }
- return $color;
-}
-
 
 if (isset($_GET['serial'])){
   if (file_exists("../".$lidarDir.$_GET['serial'].".json")){
@@ -33,6 +12,33 @@ if (isset($_GET['serial'])){
 	$lidarData = array_reverse(explode(",", $lidarData['lidar'])); // Flip array to pull correctly.
 	// FIND LARGEST VALUE IN THE ARRAY
 	$findMax = max($lidarData);
+	$maxLocation = array_keys($lidarData, $findMax);
+	if (file_exists("../".$lidarDir.$_GET['serial'].".last")) {
+		$lastInitial = file_get_contents("../".$lidarDir.$_GET['serial'].".last");
+		$lastInitial = explode(":", $lastInitial);
+		$lastMax = $lastInitial[0];
+		$lastLocation = $lastInitial[1];
+		file_put_contents("../".$lidarDir.$_GET['serial'].".last", $findMax.":".$maxLocation[0]);
+		$here = "top";
+	} else {
+		$here = "bottom";
+		$lastMax = $findMax;
+		$lastLocation = $maxLocation[0];
+		file_put_contents("../".$lidarDir.$_GET['serial'].".last", $lastMax.":".$lastLocation);
+	}
+	if (count($maxLocation) > 1) {
+		foreach($maxLocation as &$location) {
+			if ($location >= $lastLocation - 10 || $location <= $lastLocation + 10) {
+				$maxLocation = $location;
+				break;
+			}
+		}
+		$here = "top";
+	} else {
+		$here = "bottom";
+		$maxLocation = $maxLocation[0];
+	}
+	$newDirection = $maxLocation - $lastLocation;
 	$stamp = imagecreatefrompng('../images/neato.png');
 	$im = imagecreatetruecolor(200, 200);
 	$white  = imagecolorallocate($im,255,255,255);
@@ -65,7 +71,7 @@ if (isset($_GET['serial'])){
 	if ($findMax == 0) {
 		$bottomText = 'No data. (Device was reset)';
 	} else {
-		$bottomText = 'Scaled: '.$divide.'%';
+		$bottomText = 'Scaled: '.$divide.'% ML:'.$maxLocation.' ND: '.$newDirection.' '.$here;
 	}
 	foreach($lidarData as &$r) {
 		$distance = $r / $divide;
@@ -94,18 +100,20 @@ if (isset($_GET['serial'])){
 		}
 		imagefill($im, 0, 0, $gray);
 	        imagesetpixel($im, $x + $offsetX, $y + $offsetY, $dotColor);
-	        #imagesetpixel($im, $x + $offsetX-1, $y + $offsetY, $dotColor);
-	        #imagesetpixel($im, $x + $offsetX, $y + $offsetY-1, $dotColor);
+	        imagesetpixel($im, $x + $offsetX-1, $y + $offsetY, $dotColor);
+	        imagesetpixel($im, $x + $offsetX, $y + $offsetY-1, $dotColor);
 	        #imagesetpixel($im, $x + $offsetX+1, $y + $offsetY, $dotColor);
 	        #imagesetpixel($im, $x + $offsetX, $y + $offsetY+1, $dotColor);
 		#imagefilter($im, IMG_FILTER_PIXELATE, 2);
 		$degrees++;	
 	}
 	#imageflip($im, IMG_FLIP_HORIZONTAL);
-	imagestring($im, 2, 2, 187, $bottomText, $black);
 	imagecopy($im, $stamp, 95, 95, 0, 0, 10, 10);
+	$newImage = $im;
+	#$newImage = imagerotate($im, $newDirection, $gray);
+	imagestring($newImage, 2, 2, 187, $bottomText, $black);
 	header("Content-Type: image/png");
-	imagepng($im);
+	imagepng($newImage);
 	imagedestroy($im);
   } else {
 	echo "This device doesn't exist";
