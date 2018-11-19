@@ -39,9 +39,11 @@ $currentPage = basename($_SERVER['PHP_SELF'],'.php');
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+      <?php if ($_SESSION['admin'] == 1) { ?>
       <li class="nav-item <?php if ($currentPage == 'add') { echo 'active'; } ?>">
         <a class="nav-margin btn btn-dark btn-sm" href="add.php"><i class="fa fa-plus"></i> Add BotVac <?php if ($currentPage == 'add') { echo '<span class="sr-only">(current)</span>'; } ?></a>
       </li>
+      <?php } ?>
       <li class="nav-item <?php if ($currentPage == 'allBots') { echo 'active'; } ?>">
         <a class="nav-margin btn btn-dark btn-sm" href="allBots.php"><i class="fa fa-desktop"></i> All BotsVac's <?php if ($currentPage == 'allSystems') { echo '<span class="sr-only">(current)</span>'; }?></a>
       </li>

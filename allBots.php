@@ -7,7 +7,7 @@ include 'header.php';
 $row = 1;
 $found = 0;
 # Perform Action
-if (isset($_GET['action']) && isset($_GET['serial'])) {
+if (isset($_GET['action']) && isset($_GET['serial']) && $_SESSION['admin'] == 1) {
   $actionArray = array();
   if (in_array($_GET['action'], $possibleActions)) {
     $files = glob($actionsDir.'*.{json}', GLOB_BRACE);
@@ -31,7 +31,7 @@ if (isset($_GET['action']) && isset($_GET['serial'])) {
       if(file_put_contents($actionsDir.$time."-".$randomID.".json", $jsonConfs)) {
         msgBox("Botvac has been told to ".$_GET['action'], "success");
       } else {
-        msgBox("Botvac action NOT saved. Please check db folder permissions.", "danger");
+        msgBox("Botvac action NOT performed. You may not have the correct permissions to perform this action.", "danger");
       }
     }
   } else {
@@ -41,7 +41,7 @@ if (isset($_GET['action']) && isset($_GET['serial'])) {
   die();
 }
 # Delete Record
-if (isset($_GET['serial'])){
+if (isset($_GET['serial']) && $_SESSION['admin'] == 1){
   if (file_exists($botsDir.$_GET['serial'].".json")) {
     if ( isset($_GET['delete'])) {
       if (unlink($botsDir.$_GET['serial'].".json")) {

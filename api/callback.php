@@ -55,14 +55,22 @@ if (isset($_GET['serial']) and !isset($_POST['lidar'])){
 		foreach($files as $file) {
 		    $jsonInfo = file_get_contents($file);
 		    $queryArray = json_decode($jsonInfo, true);
-		    if ($queryArray['serial'] == $serial && !isset($queryArray['complete'])) {
-		      $queryArray['complete'] = 1;
-		      $newJson = json_encode($queryArray);
-      		      file_put_contents($file, $newJson);
-		      echo $queryArray['action'];
-		      break;
-		    }
-		}
+		    $timeNow = time();
+		    if ($queryArray['serial'] == $serial && !isset($queryArray['complete']) && !isset($queryArray['failed'])) {
+		      if ($queryArray['time'] <= $timeNow - 300) {
+			      $queryArray['failed'] = 1;
+			      $newJson = json_encode($queryArray);
+      			      file_put_contents($file, $newJson);
+			      break;
+		      } else {
+			      $queryArray['complete'] = 1;
+			      $newJson = json_encode($queryArray);
+      			      file_put_contents($file, $newJson);
+			      echo $queryArray['action'];
+			      break;
+		      }
+		  }
+	       }
 	} else {
 		echo "This boxvac doesn't exist";
 	}

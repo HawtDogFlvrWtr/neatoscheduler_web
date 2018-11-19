@@ -28,9 +28,16 @@ if (count($files) > 0) {
      $id = end(explode("/", explode(".", $file)[0]));
      $botInfo = json_decode(file_get_contents($botsDir.$jsonDecode['serial'].".json"),true);
      $time = $jsonDecode['time'];
+     if (isset($jsonDecode['complete'])) {
+	$color = 'green';
+     } else if (isset($jsonDecode['failed'])) {
+	$color = 'red';
+     } else {
+	$color = 'black';
+     }
      $realDate = date("Y-m-d H:i:s", $time);
 #	var_dump($realDate);
-     echo '<tr>';
+     echo '<tr style="color:'.$color.'">';
      echo '<td data-th="Info">'.$botInfo['description'].' - '.$botInfo['model'].'</td>';
      echo '<td data-th="Date">'.$jsonDecode['action'].'</td>';
      if ($jsonDecode['scheduled'] == 1) {

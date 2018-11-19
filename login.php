@@ -3,7 +3,7 @@ include 'config.php';
 include 'functions.php';
 #var_dump($_POST);
 if (isset($_SESSION['login_user_'.$sessionID])) {
-  header("Location: index.php");
+  header("Location: allBots.php");
   die();
 }
 if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -16,7 +16,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $_SESSION['sessionID'] = $sessionID;
     $_SESSION['time'] = time();
     $_SESSION['admin'] = 0;
-    header("Location: index.php");
+    header("Location: allBots.php");
     die();
   } else if ($checkUser == 3) {
     session_start();
@@ -24,7 +24,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $_SESSION['sessionID'] = $sessionID;
     $_SESSION['time'] = time();
     $_SESSION['admin'] = 1;
-    header("Location: index.php");
+    header("Location: allBots.php");
     die();
   } else if ($checkUser == 1) {
     $msgBox = msgBox("Username or password incorrect.", "danger");

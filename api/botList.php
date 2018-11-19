@@ -65,29 +65,29 @@ $files = glob('../'.$botsDir.'*.{json}', GLOB_BRACE);
 		    <batLarge class="justify-content-center d-flex position-absolute w-100">'.$jsonDecode['battery'].'%</batLarge>
 		</div>
 	   </td>';
-     echo '<td data-th="Options">
-	<a data-toggle="tooltip" title="EDIT BOTVAC" class="btn btn-secondary btn-icon" href="add.php?serial='.$jsonDecode['serial'].'"><i class="fa fa-edit"></i></a>
-	<a data-toggle="modal" data-toggle="tooltip" title="DELETE BOTVAC" href="#delete'.$row.'" class="btn btn-secondary btn-icon" data-dismiss="modal"><i class="fa fa-trash-alt"></i></a>
-	<a data-toggle="modal" data-toggle="tooltip" title="RAW BOT INFO" href="#json'.$jsonDecode['serial'].'" class="btn btn-secondary btn-icon" data-dismiss="modal"><i class="fa fa-code"></i></a>';
-     # ERROR MESSAGE MODAL IF IT EXISTS
-     if ($jsonDecode['errorMsg'] != '') { 
-     echo '<div id="error'.$jsonDecode['serial'].'" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-             <div class="modal-dialog">
-               <div class="modal-content">
-		<div class="modal-header">
-		 <h5 class="modal-title">Error: '.$jsonDecode['description'].' '.$jsonDecode['model'].'</h5>
-		 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-		</div>
-                   <div class="modal-body">
-                     <p class="lead">'.$jsonDecode['errorMsg'].'</p>
-                   </div>
-                   <div class="modal-footer">
-                     <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle-o"></i> Ok</button>
-                   </div>
-               </div>
-             </div>
-           </div>';
-     }
+       echo '<td data-th="Options">
+	  <a data-toggle="tooltip" title="EDIT BOTVAC" class="btn btn-secondary btn-icon" href="add.php?serial='.$jsonDecode['serial'].'"><i class="fa fa-edit"></i></a>
+	  <a data-toggle="modal" data-toggle="tooltip" title="DELETE BOTVAC" href="#delete'.$row.'" class="btn btn-secondary btn-icon" data-dismiss="modal"><i class="fa fa-trash-alt"></i></a>
+	  <a data-toggle="modal" data-toggle="tooltip" title="RAW BOT INFO" href="#json'.$jsonDecode['serial'].'" class="btn btn-secondary btn-icon" data-dismiss="modal"><i class="fa fa-code"></i></a>';
+       # ERROR MESSAGE MODAL IF IT EXISTS
+       if ($jsonDecode['errorMsg'] != '') { 
+       echo '<div id="error'.$jsonDecode['serial'].'" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+	 	<div class="modal-header">
+	 	 <h5 class="modal-title">Error: '.$jsonDecode['description'].' '.$jsonDecode['model'].'</h5>
+	 	 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+	 	</div>
+                    <div class="modal-body">
+                      <p class="lead">'.$jsonDecode['errorMsg'].'</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle-o"></i> Ok</button>
+                    </div>
+                </div>
+              </div>
+            </div>';
+       }
      # JSON MODAL
      echo '<div id="json'.$jsonDecode['serial'].'" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
              <div class="modal-dialog modal-lg">

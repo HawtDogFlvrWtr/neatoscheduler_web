@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-$addedPath = '/var/www/neato/neato/';
+$addedPath = '/var/www/neato/neatomine/';
 // Access DB Info
 include($addedPath.'config.php');
 
@@ -20,43 +20,43 @@ $actionCount = 1;
 	$queryArray = json_decode($jsonInfo, true);
 	$randomID = generateRandomString(10);
 	$timeNow = time();
-	$daysoweek = array();
-	$days = explode(',',$queryArray['date']);
-	$fileName = $addedPath.$actionsDir.$timeNow.'-'.$randomID.'.json';
-       	if ($days[0] == 1) { array_push($daysoweek, 'sun'); }
-        if ($days[1] == 1) { array_push($daysoweek, 'mon'); }
-        if ($days[2] == 1) { array_push($daysoweek, 'tue'); }
-        if ($days[3] == 1) { array_push($daysoweek, 'wed'); }
-        if ($days[4] == 1) { array_push($daysoweek, 'thu'); }
-        if ($days[5] == 1) { array_push($daysoweek, 'fri'); }
-        if ($days[6] == 1) { array_push($daysoweek, 'sat'); }
-	$currentDay = strtolower(date('D'));
+		$daysoweek = array();
+		$days = explode(',',$queryArray['date']);
+		$fileName = $addedPath.$actionsDir.$timeNow.'-'.$randomID.'.json';
+       		if ($days[0] == 1) { array_push($daysoweek, 'sun'); }
+	        if ($days[1] == 1) { array_push($daysoweek, 'mon'); }
+        	if ($days[2] == 1) { array_push($daysoweek, 'tue'); }
+	        if ($days[3] == 1) { array_push($daysoweek, 'wed'); }
+        	if ($days[4] == 1) { array_push($daysoweek, 'thu'); }
+	        if ($days[5] == 1) { array_push($daysoweek, 'fri'); }
+        	if ($days[6] == 1) { array_push($daysoweek, 'sat'); }
+		$currentDay = strtolower(date('D'));
 	
-	$eventTime = $queryArray['hour'].":".$queryArray['minute'];
+		$eventTime = $queryArray['hour'].":".$queryArray['minute'];
 
-	$schedule_date = new DateTime($currentTime, new DateTimeZone('UTC'));
-	$schedule_date->setTimeZone(new DateTimeZone($timezone));
-	$time = $schedule_date->format('H:i');
-	echo $actionCount.") Now: ".$currentDay." @ ".$time." Scheduled: ".join(",", $daysoweek)." @ ".$eventTime."\n";
+		$schedule_date = new DateTime($currentTime, new DateTimeZone('UTC'));
+		$schedule_date->setTimeZone(new DateTimeZone($timezone));
+		$time = $schedule_date->format('H:i');
+		echo $actionCount.") Now: ".$currentDay." @ ".$time." Scheduled: ".join(",", $daysoweek)." @ ".$eventTime." ".$file." \n";
 	
-	// Compare and kickoff if need be.
-	if (in_array($currentDay, $daysoweek) && $eventTime != $time) {
-		echo "(Day is right, but time isn't)\n";
-	} else if ($eventTime == $time && in_array($currentDay, $daysoweek)) {
-		$txt = "(Performing action '".$queryArray['action']."' at ".$eventTime.".)\n";
-                $actionArray['action'] = $queryArray['action'];
-                $actionArray['serial'] = $queryArray['serial'];
-		$actionArray['time'] = $timeNow;
-		$actionArray['scheduled'] = 1;
-                $jsonConfs = json_encode($actionArray);
-		file_put_contents('/tmp/neatoRun', $txt, FILE_APPEND);
-		# Touch file and change permissions before writing to it.
-		file_put_contents($fileName, $jsonConfs);
-		chown($fileName, 'apache');
-		chgrp($fileName, 'apache');
-	} else {
-		echo "(Wrong day and time.)\n";
-	}
-	$actionCount++;
+		// Compare and kickoff if need be.
+		if (in_array($currentDay, $daysoweek) && $eventTime != $time) {
+			echo "(Day is right, but time isn't)\n";
+		} else if ($eventTime == $time && in_array($currentDay, $daysoweek)) {
+			$txt = "(Performing action '".$queryArray['action']."' at ".$eventTime.".)\n";
+                	$actionArray['action'] = $queryArray['action'];
+	                $actionArray['serial'] = $queryArray['serial'];
+			$actionArray['time'] = $timeNow;
+			$actionArray['scheduled'] = 1;
+	                $jsonConfs = json_encode($actionArray);
+			file_put_contents('/tmp/neatoRun', $txt, FILE_APPEND);
+			# Touch file and change permissions before writing to it.
+			file_put_contents($fileName, $jsonConfs);
+			chown($fileName, 'apache');
+			chgrp($fileName, 'apache');
+		} else {
+			echo "(Wrong day and time.)\n";
+		}	
+		$actionCount++;
     }
 ?>

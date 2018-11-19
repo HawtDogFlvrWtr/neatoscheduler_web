@@ -6,7 +6,7 @@ include 'header.php';
 $row = 1;
 
 # Add scheduled event
-if (isset($_POST['submit']) && $_POST['submit'] == "addschaction" && isset($_POST['device']) && isset($_POST['action']) && isset($_POST['hour']) && isset($_POST['minute']) && isset($_POST['note'])){
+if ($_SESSION['admin'] == 1 && isset($_POST['submit']) && $_POST['submit'] == "addschaction" && isset($_POST['device']) && isset($_POST['action']) && isset($_POST['hour']) && isset($_POST['minute']) && isset($_POST['note'])){
 	$actionArray = array();
         $vid = $_POST['device'];
         $action = $_POST['action'];
@@ -82,7 +82,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == "addschaction" && isset($_POS
 
 
 # Delete Record
-if (isset($_GET['id'])){
+if ($_SESSION['admin'] == 1 && isset($_GET['id'])){
   if (file_exists($schedulesDir.$_GET['id'].".json")) {
     if ( isset($_GET['delete'])) {
       if (unlink($schedulesDir.$_GET['id'].".json")) {
@@ -98,7 +98,9 @@ $files = glob($schedulesDir.'*.{json}', GLOB_BRACE|GLOB_NOSORT);
 ?>
 <div class="container-margin container border rounded bg-light">
 <h1>Scheduled Events</h1>
-	<a style="font-style:italic;color:black;float:right;margin-top:-40px;" href="pushSchActionsNew.php" data-toggle="modal" title="Schedule A New Action" data-target="#actionmodal"><i class="text-primary fa fa-2x fa-calendar-plus"></i></a>
+	<?php if ($_SESSION['admin'] == 1) { ?>
+	<a style="font-style:italic;color:black;float:right;margin-top:-40px;" href="pushSchActionsNew.php" data-toggle="modal" title="Schedule A New Action" data-target="#actionmodal"><i class="text-primary fa fa-2x fa-calendar-plus"></i></a>a
+	<?php } ?>
 <p>These are the current schedules that you have configuration information for. You can edit or delete any record.</p>
 <?php 
 if (count($files) > 0) {

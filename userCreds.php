@@ -6,8 +6,8 @@ include 'header.php';
 $queryArray = array();
 
 # Force regular users to their profile page
-if ($_SESSION['admin'] != 1 && $_GET['username'] != $_SESSION['login_user']) {
-  header("Location: userCreds.php?username=".$_SESSION['login_user']);  
+if ($_SESSION['admin'] != 1 && $_GET['username'] != $_SESSION['login_user_'.$sessionID]) {
+  header("Location: userCreds.php?username=".$_SESSION['login_user_'.$sessionID]);  
 }
 # Generate form information if username provided
 # input information from form submit
@@ -57,9 +57,11 @@ if (count($_POST) > 0 && isset($_POST['username']) && isset($_POST['password']) 
   header("Location: userCreds.php");
   die();
 }
+
+# Get user polulated information
 if (isset($_GET['username'])){
   $username = $_GET['username'];
-  if ($_SESSION['admin'] == 1 || $username == $_SESSION['login_user']){
+  if ($_SESSION['admin'] == 1 || $username == $_SESSION['login_user_'.$sessionID]){
     if (file_exists($usersDir.$username.".json")) {
       if ( isset($_GET['delete'])) {
         if (unlink($usersDir.$username.".json")) {
@@ -137,7 +139,7 @@ $allCreds = glob($usersDir.'*.{json}', GLOB_BRACE);
       </div>
     </div>
     <input class="btn btn-success" type="submit" name="" value="Submit">
-    <?php if (isset($queryArray['username']) && $_SESSION['admin'] == 1 && $_SESSION['login_user'] != $queryArray['username']) { 
+    <?php if (isset($queryArray['username']) && $_SESSION['admin'] == 1 && $_SESSION['login_user_'.$sessionID] != $queryArray['username']) { 
       echo '<a data-toggle="tooltip" title="Delete User" class="btn btn-danger btn-icon" href="userCreds.php?delete&username='.$queryArray['username'].'"><i ></i>Delete</a>';
     }?>
     </form>

@@ -4,7 +4,7 @@ include 'header.php';
 #ini_set('display_startup_errors', 1);
 #error_reporting(E_ALL);
 $queryArray = array();
-$currentUser = $_SESSION['login_user'];
+$currentUser = $_SESSION['login_user_'.$sessionID];
 # Generate form information if serial provided
 # input information from form submit
 if (count($_POST) > 0 && $_POST['serial']) {
@@ -16,11 +16,11 @@ if (count($_POST) > 0 && $_POST['serial']) {
     } else {
       msgBox("BotVac information NOT saved. Are you trying to be naughty?", "danger");
     }
-    header("Location: add.php");
+    header("Location: allBots.php");
     die();
   } else {
     msgBox("This device already exists.", "danger");
-    header("Location: add.php");
+    header("Location: allBots.php");
     die();
   }
 }
